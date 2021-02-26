@@ -12,6 +12,7 @@ public interface UserDAO {
     List<User> getUserList();
     User getUserById(Long id);
     List<User> getUserByUserName(String username);
+    User getUserByLogin(String login);
 
     //updateUser
     boolean updateUserById(Long id, User newUser);

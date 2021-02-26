@@ -26,12 +26,13 @@
         <span id="nav-products"><a href="${ProductsUrl}">Products</a></span>
         <span id="nav-users"><a href="${UsersUrl}">Users</a></span>
     </div>
+    <h3><%= "Hello"+"==>"+ session.getAttribute("login")+"<==" %></h3>
     <h1>Users</h1>
     <table class="table" align="center">
         <thead class="thead-dark" align="center">
         <tr>
             <th scope="col">id</th>
-            <th scope="col">User_Name</th>
+            <th scope="col">UserName</th>
             <th scope="col">Adress</th>
             <th scope="col">Login</th>
         </tr>

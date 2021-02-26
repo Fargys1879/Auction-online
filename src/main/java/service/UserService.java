@@ -21,9 +21,10 @@ public class UserService {
     }
 
     public boolean checkUserPresence(User userToFind){
-        List<User> findUserList = userDAO.getUserByUserName(userToFind.getUserName());
-        if (findUserList == null) {
-            throw new NullPointerException();
+        String login = userToFind.getLogin();
+        User user = userDAO.getUserByLogin(login);
+        if (user == null) {
+            return false;
         }
         return true;
     }

@@ -23,7 +23,7 @@ public class ProductServiceTest {
 
     @Test
     public void addProduct_Should_Return_True() {
-        Product productToAdd = new Product(10L,"NewProduct","Some description",200f,10f,24,false);
+        Product productToAdd = new Product("NewProduct","Some description",200f,10f,24,false,null);
         Mockito.when(productDAO.addProduct(productToAdd)).thenReturn(true);
         boolean check = productService.addProduct(productToAdd);
         Assert.assertTrue(check);
@@ -44,8 +44,8 @@ public class ProductServiceTest {
     @Test
     public void getAllProductList_Should_Return_Equals() {
         List<Product> productListToMock = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct1","Some description1",201f,11f,25,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct1","Some description1",201f,11f,25,false,null)
                 );
         Mockito.when(productDAO.getAllProductList()).thenReturn(productListToMock);
         List<Product> productListFromService = productService.getAllProductList();
@@ -67,13 +67,13 @@ public class ProductServiceTest {
     @Test
     public void getProductByProductName_Should_Return_Equals() {
         List<Product> productListToMock = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct","Some description1",201f,11f,25,false),
-                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct","Some description1",201f,11f,25,false,null),
+                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false,null)
         );
         List<Product> productListToExpect = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct","Some description1",201f,11f,25,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct","Some description1",201f,11f,25,false,null)
         );
         Mockito.when(productDAO.getAllProductList()).thenReturn(productListToMock);
         List<Product> productListFromService = productService.getProductByProductName("NewProduct");
@@ -86,9 +86,9 @@ public class ProductServiceTest {
     @Test(expected = NullPointerException.class)
     public void getProductByProductName_Should_ThrowNullPointerException() {
         List<Product> productListToMock = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct","Some description1",201f,11f,25,false),
-                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct","Some description1",201f,11f,25,false,null),
+                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false,null)
         );
         Mockito.when(productDAO.getAllProductList()).thenReturn(productListToMock);
         productService.getProductByProductName("NotExistName");
@@ -99,7 +99,7 @@ public class ProductServiceTest {
 
     @Test
     public void buyProductByProductUid_Should_Return_True() {
-        Product productToMock = new Product(1L,"NewProduct","Some description",200f,10f,24,false);
+        Product productToMock = new Product(1L,"NewProduct","Some description",200f,10f,24,false,null);
         Mockito.when(productDAO.getProductByUid(1L)).thenReturn(productToMock);
         boolean checkProductBuy = productService.buyProductByProductUid(1L);
         Assert.assertTrue(checkProductBuy);
@@ -120,13 +120,13 @@ public class ProductServiceTest {
     @Test
     public void getProductByProductTimeLot_Should_Return_Equals() {
         List<Product> productListToMock = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct","Some description1",201f,11f,24,false),
-                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct","Some description1",201f,11f,24,false,null),
+                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false,null)
         );
         List<Product> productListToExpect = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct","Some description1",201f,11f,24,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct","Some description1",201f,11f,24,false,null)
         );
         Mockito.when(productDAO.getAllProductList()).thenReturn(productListToMock);
         List<Product> productListFromService = productService.getProductByProductTimeLot(24);
@@ -139,9 +139,9 @@ public class ProductServiceTest {
     @Test(expected = NullPointerException.class)
     public void getProductByProductTimeLot_Should_ThrowNullPointerException() {
         List<Product> productListToMock = Arrays.asList(
-                new Product(1L,"NewProduct","Some description",200f,10f,24,false),
-                new Product(2L,"NewProduct","Some description1",201f,11f,24,false),
-                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false)
+                new Product(1L,"NewProduct","Some description",200f,10f,24,false,null),
+                new Product(2L,"NewProduct","Some description1",201f,11f,24,false,null),
+                new Product(3L,"NewProduct1","Some description2",202f,12f,26,false,null)
         );
         Mockito.when(productDAO.getAllProductList()).thenReturn(productListToMock);
         productService.getProductByProductTimeLot(10); //this TimeLot not exist

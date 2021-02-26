@@ -12,13 +12,15 @@ import java.util.List;
 public class ProductDAOImpl implements ProductDAO {
     private final ConnectionBuilder connectionBuilder;
 
-    private static final String UID = "UID";
-    private static final String PRODUCT_NAME = "PRODUCT_NAME";
-    private static final String DESCRIPTION = "DESCRIPTION";
-    private static final String START_PRICE = "START_PRICE";
-    private static final String RATE_STEP = "RATE_STEP";
-    private static final String TIME_LOT = "TIME_LOT";
-    private static final String FLAG_BUY = "FLAG_BUY";
+    private static final String UID = "uid";
+    private static final String PRODUCT_NAME = "product_name";
+    private static final String DESCRIPTION = "description";
+    private static final String START_PRICE = "start_price";
+    private static final String CURRENT_PRICE = "current_price";
+    private static final String RATE_STEP = "rate_step";
+    private static final String TIME_LOT = "time_lot";
+    private static final String FLAG_BUY = "flag_buy";
+    private static final String BIDDER ="bidder";
 
     public ProductDAOImpl(ConnectionBuilder connectionBuilder) {
         this.connectionBuilder = connectionBuilder;
@@ -26,20 +28,19 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean addProduct(Product product) {
-        String sql = "INSERT into \"PRODUCT\" " +
-                "(UID, PRODUCT_NAME, DESCRIPTION, START_PRICE, RATE_STEP, TIME_LOT, FLAG_BUY) " +
-                "VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT into products " +
+                "(product_name, description, start_price, current_price, rate_step, time_lot) " +
+                "VALUES (?,?,?,?,?,?)";
         try (   Connection connection = connectionBuilder.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
 
-            statement.setLong(1, product.getUid());
-            statement.setString(2, product.getProductName());
-            statement.setString(3, product.getDescription());
-            statement.setFloat(4, product.getStartPrice());
+            statement.setString(1, product.getProductName());
+            statement.setString(2, product.getDescription());
+            statement.setFloat(3, product.getStartPrice());
+            statement.setFloat(4, product.getCurrentPrice());
             statement.setFloat(5, product.getRateStep());
             statement.setInt(6, product.getTimeLot());
-            statement.setBoolean(7, product.isBuy_flag());
 
             statement.executeUpdate();
             return true;
@@ -52,8 +53,9 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getAllProductList() {
         List<Product> productsList = new ArrayList<>();
         String sql =
-                "SELECT UID, PRODUCT_NAME, DESCRIPTION, START_PRICE, RATE_STEP, TIME_LOT, FLAG_BUY " +
-                "from \"PRODUCT\" ";
+                "SELECT uid, product_name, description, start_price, " +
+                        "current_price, rate_step, time_lot, flag_buy, bidder " +
+                "from products ";
 
         try (   Connection connection = connectionBuilder.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
@@ -62,14 +64,16 @@ public class ProductDAOImpl implements ProductDAO {
 
             while (resultSet.next()) {
                 Product product = new Product();
+
                 product.setUid(resultSet.getLong(UID));
                 product.setProductName(resultSet.getString(PRODUCT_NAME));
                 product.setDescription(resultSet.getString(DESCRIPTION));
                 product.setStartPrice(resultSet.getFloat(START_PRICE));
+                product.setCurrentPrice(resultSet.getFloat(CURRENT_PRICE));
                 product.setRateStep(resultSet.getFloat(RATE_STEP));
                 product.setTimeLot(resultSet.getInt(TIME_LOT));
                 product.setBuy_flag(resultSet.getBoolean(FLAG_BUY));
-
+                product.setBidder(resultSet.getString(BIDDER));
                 productsList.add(product);
             }
         } catch (SQLException throwables) {
@@ -82,8 +86,8 @@ public class ProductDAOImpl implements ProductDAO {
     public Product getProductByUid(Long uid) {
         List<Product> productList = new ArrayList<>();
         String sql = "SELECT DISTINCT " +
-                "UID, PRODUCT_NAME, DESCRIPTION, START_PRICE, RATE_STEP, TIME_LOT, FLAG_BUY " +
-                "from \"PRODUCT\" where UID = '"+uid+"'";
+                "uid, product_name, description, start_price, current_price, rate_step, time_lot, flag_buy, bidder " +
+                "from products where uid = '"+uid+"'";
         try (   Connection connection = connectionBuilder.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
@@ -95,9 +99,11 @@ public class ProductDAOImpl implements ProductDAO {
                 product.setProductName(resultSet.getString(PRODUCT_NAME));
                 product.setDescription(resultSet.getString(DESCRIPTION));
                 product.setStartPrice(resultSet.getFloat(START_PRICE));
+                product.setCurrentPrice(resultSet.getFloat(CURRENT_PRICE));
                 product.setRateStep(resultSet.getFloat(RATE_STEP));
                 product.setTimeLot(resultSet.getInt(TIME_LOT));
                 product.setBuy_flag(resultSet.getBoolean(FLAG_BUY));
+                product.setBidder(resultSet.getString(BIDDER));
                 productList.add(product);
             }
         } catch (SQLException throwables) {
@@ -108,10 +114,10 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean updateProductByUid(Long uid, Product newProduct)  {
-        String sql = "UPDATE \"PRODUCT\" " +
-                "  SET PRODUCT_NAME = ?, DESCRIPTION = ?, START_PRICE = ?, " +
-                "RATE_STEP = ?, TIME_LOT = ?, FLAG_BUY = ?" +
-                "  WHERE UID = ?;";
+        String sql = "UPDATE products " +
+                "  SET product_name = ?, description = ?, start_price = ?, " +
+                "current_price = ?, rate_step = ?, time_lot = ?, flag_buy = ?, bidder = ?" +
+                "  WHERE uid = ?;";
 
         try (   Connection connection = connectionBuilder.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
@@ -119,10 +125,12 @@ public class ProductDAOImpl implements ProductDAO {
             statement.setString(1, newProduct.getProductName());
             statement.setString(2, newProduct.getDescription());
             statement.setFloat(3, newProduct.getStartPrice());
-            statement.setFloat(4, newProduct.getRateStep());
-            statement.setInt(5, newProduct.getTimeLot());
-            statement.setBoolean(6, newProduct.isBuy_flag());
-            statement.setLong(7, uid);
+            statement.setFloat(4,newProduct.getCurrentPrice());
+            statement.setFloat(5, newProduct.getRateStep());
+            statement.setInt(6, newProduct.getTimeLot());
+            statement.setBoolean(7, newProduct.isBuy_flag());
+            statement.setString(8,newProduct.getBidder());
+            statement.setLong(9, uid);
 
             statement.executeUpdate();
             return true;
@@ -133,10 +141,10 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public void removeProductByUid(Long uid) {
-        String sql = "DELETE from \"PRODUCT\" where UID = ?";
+        String sql = "DELETE from products where uid = ?";
         try (   Connection connection = connectionBuilder.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)){
-
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ){
             statement.setLong(1,uid);
             statement.executeUpdate();
 

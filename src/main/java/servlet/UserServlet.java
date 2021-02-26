@@ -6,8 +6,7 @@ import dao.impl.UserDAOImpl;
 import entity.User;
 import service.UserService;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,18 +18,30 @@ public class UserServlet extends HttpServlet {
     private UserService userService;
 
     @Override
-    public void init() throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         userDAO = new UserDAOImpl(new PoolConnectionBuilder());
         userService = new UserService(userDAO);
-        System.out.println("UserServlet is Created");
+        log("UserServlet init");
+    }
+
+    @Override
+    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+        super.service(req, res);
+        res.getWriter().println("User Service\n");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("We are in userServlet");
+        log("We are doGet in UserServlet");
         List<User> allUsersList = userService.getAllUserList();
         req.setAttribute("allUserList",allUsersList);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/user.jsp");
         requestDispatcher.forward(req,resp);
+    }
+
+    @Override
+    public void destroy() {
+        log("UserServlet destroy");
     }
 }

@@ -25,6 +25,7 @@
         <span id="nav-products"><a href="${ProductsUrl}">Products</a></span>
         <span id="nav-users"><a href="${UsersUrl}">Users</a></span>
     </div>
+    <h3><%= "Hello"+"==>"+ session.getAttribute("login")+"<==" %></h3>
     <h1>Products</h1>
     <table class="table" align="center">
         <thead class="thead-dark" align="center">
@@ -34,8 +35,11 @@
             <th scope="col">Description</th>
             <th scope="col">StartPrice</th>
             <th scope="col">RateStep</th>
+            <th scope="col">CurrentPrice</th>
             <th scope="col">TimeLot</th>
             <th scope="col">BuyStatus</th>
+            <th scope="col">Bidder</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody align="center">
@@ -47,8 +51,16 @@
                 <td>${product.description}</td>
                 <td>${product.startPrice}</td>
                 <td>${product.rateStep}</td>
+                <td>${product.currentPrice}</td>
                 <td>${product.timeLot}</td>
                 <td>${product.buy_flag}</td>
+                <td>${product.bidder}</td>
+                <td>
+                    <form action="products" method="post">
+                    <input type="hidden" name="uid" value="${product.uid}">
+                    <input type="submit" value="Bid">
+                    </form>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

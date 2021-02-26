@@ -25,24 +25,26 @@ public class UserServiceTest {
 
     @Test
     public void checkUserPresence_Should_Return_True() {
-        User userToFind = new User("Vasya");
-        List<User> userListToReturn = Collections.singletonList(new User("Vasya"));
-        when(userDAO.getUserByUserName("Vasya")).thenReturn(userListToReturn);
+        User userToFind = new User(1L,"Evgeny","Sergiev Posad","evg123","123");
+        User userToReturn = new User(1L,"Evgeny","Sergiev Posad","evg123","123");
+        when(userDAO.getUserByLogin("evg123")).thenReturn(userToReturn);
         boolean userExists = userService.checkUserPresence(userToFind);
         Assert.assertTrue(userExists);
 
         //verify DAO
-        verify(userDAO).getUserByUserName(userToFind.getUserName());
+        verify(userDAO).getUserByLogin(userToFind.getLogin());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void checkUserPresence_Should_ThrowNullPointerException() {
-        User userToFind = new User("NoExistUser");
-        when(userDAO.getUserByUserName(userToFind.getUserName())).thenReturn(null);
-        userService.checkUserPresence(userToFind);
+    @Test
+    public void checkUserPresence_Should_Return_False() {
+        User userToFind = new User(1L,"Evgeny","Sergiev Posad","evg123","123");
+        User userToReturn = null;
+        when(userDAO.getUserByLogin("evg123")).thenReturn(userToReturn);
+        boolean userExists = userService.checkUserPresence(userToFind);
+        Assert.assertFalse(userExists);
 
         //verify DAO
-        verify(userDAO).getUserByUserName(userToFind.getUserName());
+        verify(userDAO).getUserByLogin(userToFind.getLogin());
     }
 
     @Test
@@ -71,7 +73,7 @@ public class UserServiceTest {
 
     @Test
     public void addNewUser_Should_Return_True() {
-        User userToAdd = new User(4L,"Gena","Sargiev Posad","gener1","123");
+        User userToAdd = new User("Gena","Sargiev Posad","gener1","123");
         when(userDAO.addUser(userToAdd)).thenReturn(true);
         boolean check = userService.addNewUser(userToAdd);
         Assert.assertTrue(check);

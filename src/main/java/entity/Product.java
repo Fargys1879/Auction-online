@@ -5,14 +5,15 @@ import java.util.Objects;
 public class Product {
     private Long uid;
     private String productName,description;
-    private float startPrice,rateStep;
+    private float startPrice,rateStep,currentPrice;
     private int timeLot;
     private boolean buy_flag;
+    private String bidder;
 
     public Product() {
     }
 
-    public Product(Long uid, String productName, String description, float startPrice, float rateStep, int timeLot, boolean buy_flag) {
+    public Product(Long uid, String productName, String description, float startPrice, float rateStep, int timeLot, boolean buy_flag, String bidder) {
         this.uid = uid;
         this.productName = productName;
         this.description = description;
@@ -20,6 +21,45 @@ public class Product {
         this.rateStep = rateStep;
         this.timeLot = timeLot;
         this.buy_flag = buy_flag;
+        this.bidder = bidder;
+        this.currentPrice = startPrice;
+    }
+
+    public Product(String productName, String description, float startPrice, float rateStep, int timeLot, boolean buy_flag, String bidder) {
+        this.productName = productName;
+        this.description = description;
+        this.startPrice = startPrice;
+        this.rateStep = rateStep;
+        this.timeLot = timeLot;
+        this.buy_flag = buy_flag;
+        this.bidder = bidder;
+        this.currentPrice = startPrice;
+    }
+
+    public Product(String productName, String description, float startPrice, float rateStep, int timeLot, boolean buy_flag) {
+        this.productName = productName;
+        this.description = description;
+        this.startPrice = startPrice;
+        this.rateStep = rateStep;
+        this.timeLot = timeLot;
+        this.buy_flag = buy_flag;
+        this.currentPrice = startPrice;
+    }
+
+    public float getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(float currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public String getBidder() {
+        return bidder;
+    }
+
+    public void setBidder(String bidder) {
+        this.bidder = bidder;
     }
 
     public Long getUid() {

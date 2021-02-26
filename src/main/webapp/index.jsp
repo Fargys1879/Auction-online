@@ -1,9 +1,10 @@
-
-<%@ page session="false" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 request.setAttribute("IndextUrl", "/");
 request.setAttribute("ProductsUrl", "/products");
 request.setAttribute("UsersUrl", "/users");
+request.setAttribute("LoginUrl", "/login");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,12 +17,17 @@ request.setAttribute("UsersUrl", "/users");
     <body>
         <div id="wrapper">
             <div id="navigation" class="curved container">
-                <span id="nav-home"><a href="${tomcatUrl}">Home</a></span>
+                <span id="nav-home"><a href="${IndextUrl}">Home</a></span>
                 <span id="nav-products"><a href="${ProductsUrl}">Products</a></span>
                 <span id="nav-users"><a href="${UsersUrl}">Users</a></span>
+                <span id="nav-login"><a href="${LoginUrl}">Login</a></span>
             </div>
             <div id="asf-box">
-                <h1>${pageContext.servletContext.serverInfo}</h1>
+                <h3><%= "Hello"+"==>"+ session.getAttribute("login")+"<==" %></h3>
+                <h1>Server:</h1>
+                <h3>${pageContext.servletContext.serverInfo}</h3>
+                <h2>DataBase:</h2>
+                <h3><c:out value="${initParam.DriverNameDB}" /></h3>
             </div>
         </div>
     </body>
