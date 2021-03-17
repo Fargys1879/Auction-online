@@ -1,5 +1,6 @@
 # Auction-online
-WebApp 
+WebApp (version 0.0.1-SNAPSHOT)
+ServletWebApp
 Technologies used:
 -JUnit Tests
 -Mockito
