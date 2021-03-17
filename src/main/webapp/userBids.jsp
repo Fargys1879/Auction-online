@@ -20,29 +20,26 @@
         <span id="nav-users"><a href="${UsersUrl}">Users</a></span>
     </div>
     <h3><%= "Hello"+"==>"+ session.getAttribute("login")+"<==" %></h3>
-    <h1>Users</h1>
+    <h1><%= request.getAttribute("userLogin")%> Bid List</h1>
     <table class="table" align="center">
         <thead class="thead-dark" align="center">
         <tr>
-            <th scope="col">id</th>
-            <th scope="col">UserName</th>
-            <th scope="col">Adress</th>
-            <th scope="col">Login</th>
-            <th scope="col">Bid List</th>
+            <th scope="col">bid_id</th>
+            <th scope="col">product_id</th>
+            <th scope="col">price</th>
+            <th scope="col">product_name</th>
+            <th scope="col">description</th>
         </tr>
         </thead>
         <tbody align="center">
-        <jsp:useBean id="allUserList" scope="request" type="java.util.List"/>
-        <c:forEach items="${allUserList}" var="user">
+        <jsp:useBean id="bidList" scope="request" type="java.util.List"/>
+        <c:forEach items="${bidList}" var="bid">
             <tr>
-                <td>${user.id}</td>
-                <td>${user.userName}</td>
-                <td>${user.adress}</td>
-                <td>${user.login}</td>
-                <td><form action="users" method="post">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <input type="submit" value="Bid LIst">
-                </form></td>
+                <td>${bid.bid_id}</td>
+                <td>${bid.product_id}</td>
+                <td>${bid.price}</td>
+                <td>${bid.product_name}</td>
+                <td>${bid.description}</td>
             </tr>
         </c:forEach>
         </tbody>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>Auction-online</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<header th:insert="blocks/header :: header"></header>
+<body>
+<div id="wrapper">
+    <h1>Add New Product</h1>
+    <div class="container mt-5">
+        <div class="alert alert-info mt-2">
+            <form th:action="@{/product/add}" method="post">
+                <label>Product name</label>
+                <input type="text" name="productName" value="NewProductName"><br>
+                <label>Description</label>
+                <textarea th:text="NoDescription" name="description"></textarea><br>
+                <label>startPrice</label>
+                <input type="text" name="startPrice" value="100.50"><br>
+                <label>rateStep</label>
+                <input type="text" name="rateStep" value="10.50"><br>
+                <button type="submit" class="btn btn-success">Add new Product</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

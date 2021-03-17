@@ -36,8 +36,8 @@
             <th scope="col">StartPrice</th>
             <th scope="col">RateStep</th>
             <th scope="col">CurrentPrice</th>
+            <th scope="col">AddTime</th>
             <th scope="col">TimeLot</th>
-            <th scope="col">BuyStatus</th>
             <th scope="col">Bidder</th>
             <th scope="col"></th>
         </tr>
@@ -52,8 +52,8 @@
                 <td>${product.startPrice}</td>
                 <td>${product.rateStep}</td>
                 <td>${product.currentPrice}</td>
+                <td>${product.addTime}</td>
                 <td>${product.timeLot}</td>
-                <td>${product.buy_flag}</td>
                 <td>${product.bidder}</td>
                 <td>
                     <form action="products" method="post">
