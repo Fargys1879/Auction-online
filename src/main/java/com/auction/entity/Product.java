@@ -1,16 +1,17 @@
 package com.auction.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude={"uid", "addTime"})
 @Entity
 @Table(name = "products")
@@ -18,9 +19,15 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long uid;
+    @NotBlank
     private String productName;
-    private String description = "NoDescription";
-    private float startPrice,rateStep,currentPrice;
+    @NotBlank
+    private String description;
+    @Min(value = 100)
+    private float startPrice;
+    @Min(value = 10)
+    private float rateStep;
+    private float currentPrice;
     private int timeLot = 30;
     private boolean buyFlag = false;
     private String bidder = "NoBidder";

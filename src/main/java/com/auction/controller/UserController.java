@@ -45,23 +45,4 @@ public class UserController {
         model.addAttribute("user", user);
         return "user-details";
     }
-
-    @PostMapping("/user/{id}/save")
-    public String postSaveUserDetailsPage(@PathVariable(value = "id") Long id,
-                                          @RequestParam String userName,
-                                          String adress,
-                                          String login) {
-        User user = userService.getUserById(id);
-        user.setUserName(userName);
-        user.setAdress(adress);
-        user.setLogin(login);
-        userService.updateUser(user);
-        return "redirect:/users";
-    }
-
-    @PostMapping("/user/{id}/delete")
-    public String postDeleteUserDetailsPage(@PathVariable(value = "id") Long id) {
-        userService.removeUserById(id);
-        return "redirect:/users";
-    }
 }

@@ -1,13 +1,14 @@
 package com.auction.repository;
 
 import com.auction.entity.Product;
-import com.sun.istack.NotNull;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
-@Service("productRepository")
+@Repository
+@Transactional
 public interface ProductRepository extends CrudRepository<Product,Long> {
     @Override
     Product save(Product product);

@@ -11,25 +11,20 @@ import com.auction.service.ProductService;
 import com.auction.service.ServiceException;
 import com.auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("bidService")
+@Service
 public class BidServiceImpl implements BidService {
     @Autowired
-    @Qualifier("productService")
     private ProductService productService;
     @Autowired
-    @Qualifier("userService")
     private UserService userService;
     @Autowired
-    @Qualifier("bidRepository")
     private BidRepository bidRepository;
     @Autowired
-    @Qualifier("productRepository")
     private ProductRepository productRepository;
 
     @Override

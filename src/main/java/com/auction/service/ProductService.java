@@ -12,5 +12,4 @@ public interface ProductService {
     Product buyProductByUid(Long uid);
     Product getProductByUid(Long uid);
     boolean deleteProductByUid(Long uid);
-    boolean deleteAll();
 }

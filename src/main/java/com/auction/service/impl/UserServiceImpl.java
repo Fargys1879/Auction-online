@@ -1,26 +1,31 @@
 package com.auction.service.impl;
 
+import com.auction.entity.Role;
 import com.auction.entity.User;
+import com.auction.repository.RoleRepository;
 import com.auction.repository.UserRepository;
 import com.auction.service.ServiceException;
 import com.auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    @Qualifier("userRepository")
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public boolean addNewUser(User user) {
         try {
+            Role role = roleRepository.findById(1L).get();
+            user.setRoles(Collections.singleton(role));
             userRepository.save(user);
             return true;
         } catch (Exception e) {
@@ -59,7 +64,7 @@ public class UserServiceImpl implements UserService {
         try {
             Iterable<User> userList = userRepository.findAll();
             for (User u : userList){
-                if (u.equals(user)) {
+                if (u.getLogin().equals(user.getLogin())) {
                     return true;
                 }
             }

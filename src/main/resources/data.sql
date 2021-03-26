@@ -1,10 +1,12 @@
+ALTER TABLE users
+ALTER COLUMN active BOOLEAN DEFAULT true;
 
-INSERT into users (user_name, adress, login, password)
-VALUES ('Evgeny','SergievPosad','evg123','123');
-INSERT into users (user_name, adress, login, password)
-VALUES ('Vasya','Saint Petersburg','vas123','123');
-INSERT into users (user_name, adress, login, password)
-VALUES ('Petya','Moscow','petro123','123');
+INSERT into roles
+(role_name )
+VALUES ('ROLE_USER');
+INSERT into roles
+(role_name )
+VALUES ('ROLE_ADMIN');
 
 ALTER TABLE products
 ALTER COLUMN buy_flag BOOLEAN DEFAULT false;

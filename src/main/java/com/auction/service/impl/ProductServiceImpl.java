@@ -5,7 +5,6 @@ import com.auction.repository.ProductRepository;
 import com.auction.service.ProductService;
 import com.auction.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,23 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service("productService")
+@Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
-    @Qualifier("productRepository")
     private ProductRepository productRepository;
 
     @Override
-    public boolean addProduct(Product product) {
-        try {
-            if (product != null) {
-                product.setCurrentPrice(product.getStartPrice());
-                product.setTimeLot(calculateTimeLot(product.getAddTime()));
-                productRepository.save(product);
-                return true;
-            }
-        } catch (Exception e) {
-            throw new ServiceException("addProduct()",e);
+    public boolean addProduct(Product product) throws ServiceException{
+        if (product != null) {
+            product.setCurrentPrice(product.getStartPrice());
+            product.setTimeLot(calculateTimeLot(product.getAddTime()));
+            productRepository.save(product);
+            return true;
         }
         return false;
     }
@@ -131,16 +125,6 @@ public class ProductServiceImpl implements ProductService {
             return true;
         } catch (Exception e) {
             throw new ServiceException("deleteProductByUid()", e);
-        }
-    }
-
-    @Override
-    public boolean deleteAll() {
-        try {
-            productRepository.deleteAll();
-            return true;
-        } catch (Exception e) {
-            throw new ServiceException("deleteAll()",e);
         }
     }
 }

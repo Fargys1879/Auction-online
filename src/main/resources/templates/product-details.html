@@ -5,6 +5,7 @@
     <title>Auction-online</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 </head>
 <header th:insert="blocks/header :: header"></header>
 <body>
@@ -12,23 +13,23 @@
     <h1 th:text = "${product.productName}"/>
     <div class="container mt-5">
         <div class="alert alert-info mt-2">
-            <form th:action="'/product/' + ${product.uid} + '/save'" method="post">
-
+            <form id="updateProductForm" th:action="'/product/' + ${product.uid} + '/save'">
                 <label>Product name</label>
-                <input type="text" name="productName" th:value="${product.productName}"><br>
+                <input type="text" name="productName" th:value="${product.productName}" class="form-control"><br>
                 <label>Description</label>
-                <textarea th:text="${product.description}" name="description" th:value="${product.description}"></textarea><br>
+                <textarea th:text="${product.description}" name="description" th:value="${product.description}" class="form-control"></textarea><br>
                 <label>startPrice</label>
-                <input type="text" name="startPrice" th:value="${product.startPrice}"><br>
+                <input type="text" name="startPrice" th:value="${product.startPrice}" class="form-control"><br>
                 <label>rateStep</label>
-                <input type="text" name="rateStep" th:value="${product.rateStep}"><br>
+                <input type="text" name="rateStep" th:value="${product.rateStep}" class="form-control"><br>
                 <button type="submit" class="btn btn-warning">Save</button>
             </form><br>
-            <form th:action="'/product/' + ${product.uid} + '/delete'" method="post">
+            <form id="deleteProductForm" th:action="'/product/' + ${product.uid} + '/delete'">
                 <button type="submit" class="btn btn-warning">Delete</button>
             </form><br>
         </div>
     </div>
 </div>
+<script src="/js/product-details.js"></script>
 </body>
 </html>
