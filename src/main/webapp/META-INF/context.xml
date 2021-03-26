@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource
-            driverClassName="org.h2.Driver"
-            maxActive="10"
-            maxIdle="5"
-            maxWait="5000"
-            name="jdbc/auction"
-            username=""
-            password=""
-            type="javax.sql.DataSource"
-            url="jdbc:h2:/c:/EPAM/GitLab/auction-online/db/online_market"
-            validationQuery="SELECT 1">
-    </Resource>
+
 </Context>
