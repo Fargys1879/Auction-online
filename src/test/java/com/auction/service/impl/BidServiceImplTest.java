@@ -1,8 +1,6 @@
 package com.auction.service.impl;
 
 import com.auction.config.AppConfig;
-import com.auction.entity.Bid;
-import com.auction.entity.Category;
 import com.auction.entity.Product;
 import com.auction.entity.User;
 import com.auction.service.BidService;

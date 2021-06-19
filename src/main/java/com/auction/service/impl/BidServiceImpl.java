@@ -30,9 +30,7 @@ public class BidServiceImpl implements BidService {
         try {
             Product product = productDAO.findOne(productUid);
             User user = userDAO.findOne(userId);
-            Bid bid = new Bid();
-            bid.setProduct(product);
-            bid.setUser(user);
+            Bid bid = new Bid(product,user,product.getCurrentPrice());
             bidDAO.save(bid);
             return true;
         } catch (Exception e) {

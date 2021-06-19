@@ -1,7 +1,6 @@
 package com.auction.dao;
 
 import com.auction.entity.Category;
-import com.auction.entity.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

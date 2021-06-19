@@ -1,7 +1,6 @@
 package com.auction.service;
 
 import com.auction.entity.Category;
-import com.auction.entity.Product;
 
 public interface CategoryService {
     boolean addCategory(Category category);
