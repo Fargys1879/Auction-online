@@ -1,57 +1,60 @@
 package com.auction.controller;
 
+import com.auction.entity.Category;
 import com.auction.entity.Product;
-import com.auction.entity.User;
-import com.auction.service.BidService;
+import com.auction.service.CategoryService;
 import com.auction.service.ProductService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping(path = "/products")
+@Data
 public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-    private BidService bidService;
+    private CategoryService categoryService;
 
-    @GetMapping("/products")
+    @GetMapping("/")
+    @Transactional
     public String getProductsPage(Model model) {
+        categoryService.addCategory(new Category("MainCategory"));
+        Product product = new Product("NewProduct","New Product",new BigDecimal(1050.2),new BigDecimal(100.2),new BigDecimal(1050.2),24,true,"bidder", LocalDateTime.now());
+        Category category = categoryService.getCategoryById(1L);
+        product.setCategory(category);
+        productService.addProduct(product);
         List<Product> allProductsList = productService.getAllProducts();
-        model.addAttribute("products",allProductsList);
+        model.addAttribute("allProductsList",allProductsList);
         return "products";
     }
 
-    @PostMapping("/products")
-    public String postBidProductsPage(@RequestParam String uid,
-                                      @AuthenticationPrincipal User user) throws Exception {
-        try {
-            String userLogin = user.getLogin();
-            Long productUid = Long.parseLong(uid);
-            bidService.bidProduct(productUid,userLogin);
-        } catch (Exception e) {
-            throw new Exception("Exception in postBidProductsPage()",e);
-        }
-        return "redirect:/products";
+    public List<Product> getProductsList() {
+        List<Product> allProductsList = productService.getAllProducts();
+        return allProductsList;
     }
 
-    @GetMapping("/product/add")
+    @GetMapping("/add")
     public String getAddProductPage() {
         return "product-add";
     }
 
-    @GetMapping("/product/{uid}")
+    @GetMapping("/{uid}")
     public String getProductDetails(@PathVariable(value = "uid") Long uid,
                                     Model model) {
         Product product = productService.getProductByUid(uid);
         model.addAttribute("product",product);
         return "product-details";
     }
+
 }

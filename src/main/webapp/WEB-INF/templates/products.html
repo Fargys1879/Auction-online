@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>Auction-online</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<header th:insert="blocks/header :: header"></header>
+<body>
+<div id="wrapper">
+    <h1>Products</h1>
+    <form th:action="@{/product/add}" method="get">
+        <button type="submit" class="btn btn-success">Add new Product</button>
+    </form><br>
+    <table class="table" align="center">
+        <thead class="thead-dark" align="center">
+        <tr>
+            <th scope="col">Uid</th>
+            <th scope="col">ProductName</th>
+            <th scope="col">Description</th>
+            <th scope="col">StartPrice</th>
+            <th scope="col">RateStep</th>
+            <th scope="col">CurrentPrice</th>
+            <th scope="col">AddTime</th>
+            <th scope="col">TimeLot(minutes)</th>
+            <th scope="col">Bidder</th>
+            <th scope="col">Bid</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody align="center">
+        <tr th:each="el : ${products}">
+            <td th:text="${el.uid}"/>
+            <td th:text="${el.productName}"/>
+            <td th:text="${el.description}"/>
+            <td th:text="${el.startPrice}"/>
+            <td th:text="${el.rateStep}"/>
+            <td th:text="${el.currentPrice}"/>
+            <td th:text="${el.addTime}"/>
+            <td th:text="${el.timeLot}"/>
+            <td th:text="${el.bidder}"/>
+            <td>
+                <form th:action="@{/products}" method="post">
+                    <input type="hidden" name="uid" th:value="${el.uid}">
+                    <input type="hidden" name="userLogin" th:value="evg123">
+                    <input type="submit" class="btn btn-success" value="Bid">
+                </form>
+            <td><a th:href="'/product/' + ${el.uid}" class="btn btn-warning">Details</a><br><br></td>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

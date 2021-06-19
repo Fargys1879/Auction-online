@@ -1,12 +1,16 @@
 package com.auction;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@SpringBootApplication
 public class AuctionApp {
+    public static ApplicationContext context;
+
     public static void main(String[] args) {
-        SpringApplication.run(AuctionApp.class,args);
+        try {
+            context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

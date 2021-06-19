@@ -1,137 +1,86 @@
 package com.auction.service.impl;
 
-import com.auction.entity.Role;
+import com.auction.dao.UserDAO;
 import com.auction.entity.User;
-import com.auction.repository.RoleRepository;
-import com.auction.repository.UserRepository;
 import com.auction.service.ServiceException;
 import com.auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+    private UserDAO userDAO;
 
     @Override
+    @Transactional
     public boolean addNewUser(User user) {
         try {
-            Role role = roleRepository.findById(1L).get();
-            user.setRoles(Collections.singleton(role));
-            userRepository.save(user);
+            userDAO.save(user);
             return true;
         } catch (Exception e) {
-            throw new ServiceException("Exception in addNewUser()",e);
+            throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
 
     @Override
+    @Transactional
     public boolean updateUser(User user) {
         try {
-            userRepository.save(user);
+            userDAO.update(user);
             return true;
         } catch (Exception e) {
-            throw new ServiceException("Exception in addNewUser()",e);
+            throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
 
     @Override
+    @Transactional
     public boolean removeUser(User user) {
         try {
-            Iterable<User> userList = userRepository.findAll();
-            for (User u : userList){
-                if (u.getId().equals(user.getId())) {
-                    userRepository.delete(u);
-                    return true;
-                }
-            }
+            userDAO.delete(user);
+            return true;
         } catch (Exception e) {
-            throw new ServiceException("Exception in removeUser()",e);
+            throw new ServiceException(e.getMessage(), e.getCause());
         }
-        return false;
     }
 
     @Override
-    public boolean checkUserExist(User user) {
-        try {
-            Iterable<User> userList = userRepository.findAll();
-            for (User u : userList){
-                if (u.getLogin().equals(user.getLogin())) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Exception in checkUserExist()",e);
-        }
-        return false;
-    }
-
-    @Override
+    @Transactional
     public List<User> getAllUserList() {
-        List<User> result = new ArrayList<>();
+        List<User> result = null;
         try {
-            Iterable<User> userList = userRepository.findAll();
-            for (User u : userList) {
-                result.add(u);
-            }
+            result = userDAO.findAll();
         } catch (Exception e) {
-            throw new ServiceException("Exception in getAllUserList()",e);
+            throw new ServiceException(e.getMessage(), e.getCause());
         }
         return result;
     }
 
     @Override
+    @Transactional
     public User getUserById(Long id) {
         User result = null;
         try {
-            Optional<User> userOptional = userRepository.findById(id);
-            if (userOptional.isPresent()){
-                result = userOptional.get();
-            }
+            result = userDAO.findOne(id);
         } catch (Exception e) {
-            throw new ServiceException("Exception in getAllUserList()",e);
+            throw new ServiceException(e.getMessage(), e.getCause());
         }
         return result;
     }
 
     @Override
+    @Transactional
     public User removeUserById(Long id) {
-        User result = null;
-        try {
-            Iterable<User> userList = userRepository.findAll();
-            for (User u : userList) {
-                if (u.getId().equals(id)) {
-                    userRepository.deleteById(id);
-                    result = u;
-                }
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Exception in removeUserById()",e);
-        }
-        return result;
+        return null;
     }
 
     @Override
+    @Transactional
     public User getUserByLogin(String login) {
-        User result = null;
-        try {
-            Iterable<User> userList = userRepository.findAll();
-            for (User u : userList) {
-                if (u.getLogin().equals(login)) {
-                    result = u;
-                }
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Exception in getAllUserList()",e);
-        }
-        return result;
+        return null;
     }
 }

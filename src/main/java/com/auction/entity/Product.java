@@ -1,52 +1,60 @@
 package com.auction.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(exclude={"uid", "addTime"})
 @Entity
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "u_id")
     private Long uid;
-    @NotBlank
+    @Column(name = "product_name")
     private String productName;
-    @NotBlank
-    private String description;
-    @Min(value = 100)
-    private float startPrice;
-    @Min(value = 10)
-    private float rateStep;
-    private float currentPrice;
+    @Column(name = "description")
+    private String description = "NoDescription";
+    @Column(name = "start_price")
+    private BigDecimal startPrice;
+    @Column(name = "rate_step")
+    private BigDecimal rateStep;
+    @Column(name = "current_price")
+    private BigDecimal currentPrice;
+    @Column(name = "time_lot")
     private int timeLot = 30;
+    @Column(name = "buy_flag")
     private boolean buyFlag = false;
+    @Column(name = "bidder")
     private String bidder = "NoBidder";
+    @Column(name = "add_time")
     private LocalDateTime addTime = LocalDateTime.now();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "product")
     Collection<Bid> bids;
 
-    public Product(Long uid,
-                   String productName,
+    public Product(String productName,
                    String description,
-                   float startPrice,
-                   float rateStep,
-                   float currentPrice,
+                   BigDecimal startPrice,
+                   BigDecimal rateStep,
+                   BigDecimal currentPrice,
                    int timeLot,
                    boolean buyFlag,
                    String bidder,
                    LocalDateTime addTime) {
-        this.uid = uid;
         this.productName = productName;
         this.description = description;
         this.startPrice = startPrice;
@@ -56,19 +64,5 @@ public class Product {
         this.buyFlag = buyFlag;
         this.bidder = bidder;
         this.addTime = addTime;
-    }
-
-    public Product(String productName,
-                   String description,
-                   float startPrice,
-                   float rateStep,
-                   float currentPrice,
-                   int timeLot) {
-        this.productName = productName;
-        this.description = description;
-        this.startPrice = startPrice;
-        this.rateStep = rateStep;
-        this.currentPrice = currentPrice;
-        this.timeLot = timeLot;
     }
 }
